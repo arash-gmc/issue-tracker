@@ -27,7 +27,9 @@ const Navbar = () => {
                 "text-zinc-500": link.href !== path,
                 "hover:text-zinc-800 transition-colors": true,
               })}
-            ></Link>
+            >
+              {link.label}
+            </Link>
           </li>
         ))}
       </ul>
