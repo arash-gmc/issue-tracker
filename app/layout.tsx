@@ -27,7 +27,7 @@ export default function RootLayout({
           scaling="105%"
         >
           <Navbar />
-          <main className="p-5">{children}</main>
+          <main className="p-6">{children}</main>
         </Theme>
       </body>
     </html>
