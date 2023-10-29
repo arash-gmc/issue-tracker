@@ -1,9 +1,8 @@
-import StatusBadge from "@/components/StatusBadge";
+import { StatusBadge } from "@/components";
 import prisma from "@/prisma/client";
 import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
 import React from "react";
-import delay from "delay";
 
 interface Props {
   params: { id: string };
