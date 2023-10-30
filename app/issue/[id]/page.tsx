@@ -1,11 +1,6 @@
-import { StatusBadge } from "@/components";
 import prisma from "@/prisma/client";
-import { Box, Button, Flex, Grid, Heading, Text } from "@radix-ui/themes";
+import { Grid } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
-import React from "react";
-import ReactMarkdown from "react-markdown";
-import { Pencil2Icon } from "@radix-ui/react-icons";
-import Link from "next/link";
 import IssueDetails from "./IssueDetails";
 import IssueSideBar from "./IssueSideBar";
 

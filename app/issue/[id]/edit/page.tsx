@@ -1,7 +1,12 @@
 import React from "react";
-import IssueForm from "../../_components/IssueForm";
 import prisma from "@/prisma/client";
 import { notFound } from "next/navigation";
+import dynamic from "next/dynamic";
+import IssueFormLoading from "../../_components/IssueFormLoading";
+const IssueForm = dynamic(() => import("@/app/issue/_components/IssueForm"), {
+  ssr: false,
+  loading: () => <IssueFormLoading />,
+});
 
 const EditIssuePage = async ({
   params: { id },

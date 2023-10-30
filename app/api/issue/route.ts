@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { inputIssueSchema as schema } from "../../validationSchema";
 import prisma from "@/prisma/client";
 
+export async function GET(request: NextRequest) {
+  const issues = await prisma.issue.findMany();
+  return NextResponse.json(issues);
+}
+
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const validation = schema.safeParse(body);
@@ -15,9 +20,4 @@ export async function POST(request: NextRequest) {
   });
 
   return NextResponse.json(newIssue);
-}
-
-export async function GET(request: NextRequest) {
-  const issues = await prisma.issue.findMany();
-  return NextResponse.json(issues);
 }
