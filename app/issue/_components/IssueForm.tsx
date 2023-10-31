@@ -1,17 +1,18 @@
 "use client";
 import { inputIssueSchema } from "@/app/validationSchema";
-import { ErrorMessage, LoadingIcon } from "@/components";
+import { ErrorMessage, Spinner } from "@/components";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Issue } from "@prisma/client";
-import { Button, Callout, TextField } from "@radix-ui/themes";
+import { Button, Callout, Flex, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import SimpleMDE from "react-simplemde-editor";
+import Link from "next/link";
+import { ThickArrowLeftIcon } from "@radix-ui/react-icons";
 
 type IssueFormData = z.infer<typeof inputIssueSchema>;
 
@@ -43,7 +44,7 @@ const IssueForm = ({ issue }: Props) => {
     }
   };
   return (
-    <div className="max-w-xl">
+    <div>
       {error && (
         <Callout.Root
           className="mb-5"
@@ -80,10 +81,22 @@ const IssueForm = ({ issue }: Props) => {
           />
           <ErrorMessage message={errors.description?.message} />
         </div>
-        <Button disabled={isSubmitting}>
-          {issue ? "Update Issue" : "Create Issue"}{" "}
-          {isSubmitting && <LoadingIcon />}
-        </Button>
+        <Flex gap="2">
+          <Button
+            color="gray"
+            size="3"
+          >
+            <ThickArrowLeftIcon />
+            <Link href="/issue">Back</Link>
+          </Button>
+          <Button
+            disabled={isSubmitting}
+            size="3"
+          >
+            {issue ? "Update Issue" : "Create Issue"}{" "}
+            {isSubmitting && <Spinner />}
+          </Button>
+        </Flex>
       </form>
     </div>
   );
