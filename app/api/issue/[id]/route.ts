@@ -14,7 +14,11 @@ export async function PATCH(
     return NextResponse.json({ error: "id is not valid" }, { status: 400 });
   const issue = await prisma.issue.update({
     where: { id: parseInt(id) },
-    data: { title: body.title, description: body.description },
+    data: {
+      title: body.title,
+      description: body.description,
+      status: body.status,
+    },
   });
   return NextResponse.json(issue);
 }

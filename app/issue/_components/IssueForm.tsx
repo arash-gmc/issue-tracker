@@ -2,8 +2,16 @@
 import { inputIssueSchema } from "@/app/validationSchema";
 import { ErrorMessage, Spinner } from "@/components";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Issue } from "@prisma/client";
-import { Button, Callout, Flex, TextField } from "@radix-ui/themes";
+import { Issue, Status } from "@prisma/client";
+import {
+  Button,
+  Callout,
+  Flex,
+  Select,
+  SelectContent,
+  Text,
+  TextField,
+} from "@radix-ui/themes";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
@@ -81,7 +89,32 @@ const IssueForm = ({ issue }: Props) => {
           />
           <ErrorMessage message={errors.description?.message} />
         </div>
-        <Flex gap="2">
+        {issue && (
+          <Flex gap="2">
+            <Text>Status: </Text>
+            <Controller
+              name="status"
+              control={control}
+              render={({ field }) => (
+                <Select.Root
+                  defaultValue={issue.status}
+                  onValueChange={field.onChange}
+                >
+                  <Select.Trigger />
+                  <Select.Content>
+                    <Select.Item value="OPEN">Open</Select.Item>
+                    <Select.Item value="CLOSED">Closed</Select.Item>
+                    <Select.Item value="IN_PROGRESS">in Progress</Select.Item>
+                  </Select.Content>
+                </Select.Root>
+              )}
+            />
+          </Flex>
+        )}
+        <Flex
+          gap="2"
+          mt="3"
+        >
           <Button
             color="gray"
             size="3"
