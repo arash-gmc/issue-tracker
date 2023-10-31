@@ -1,10 +1,13 @@
 "use client";
 import { Pencil2Icon } from "@radix-ui/react-icons";
 import { Box, Button, Dialog, Flex } from "@radix-ui/themes";
+import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const IssueSideBar = ({ issueId }: { issueId: number }) => {
+  const router = useRouter();
   return (
     <Flex
       direction="column"
@@ -30,7 +33,16 @@ const IssueSideBar = ({ issueId }: { issueId: number }) => {
             justify="end"
           >
             <Dialog.Close>
-              <Button color="red">Delete</Button>
+              <Button
+                color="red"
+                onClick={async () => {
+                  await axios.delete("/api/issue/" + issueId);
+                  router.push("/issue");
+                  router.refresh();
+                }}
+              >
+                Delete
+              </Button>
             </Dialog.Close>
             <Dialog.Close>
               <Button color="gray">Cancel</Button>
