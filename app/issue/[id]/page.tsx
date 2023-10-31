@@ -1,5 +1,5 @@
 import prisma from "@/prisma/client";
-import { Grid } from "@radix-ui/themes";
+import { Box, Grid } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
 import IssueDetails from "./IssueDetails";
 import IssueSideBar from "./IssueSideBar";
@@ -14,9 +14,16 @@ const IssueDetailPage = async ({ params: { id } }: Props) => {
   if (!issue) notFound();
 
   return (
-    <Grid columns={{ initial: "1", md: "2" }}>
-      <IssueDetails issue={issue} />
-      <IssueSideBar issueId={issue.id} />
+    <Grid
+      columns={{ initial: "1", md: "5" }}
+      gap="3"
+    >
+      <Box className="col-span-4">
+        <IssueDetails issue={issue} />
+      </Box>
+      <Box>
+        <IssueSideBar issueId={issue.id} />
+      </Box>
     </Grid>
   );
 };

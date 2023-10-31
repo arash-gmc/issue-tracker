@@ -6,7 +6,7 @@ import ReactMarkdown from "react-markdown";
 
 const IssueDetails = ({ issue }: { issue: Issue }) => {
   return (
-    <Box className="px-3 max-w-2xl">
+    <Box>
       <Heading>{issue?.title}</Heading>
       <Flex className="space-x-3 my-3">
         <StatusBadge status={issue.status} />
