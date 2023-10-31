@@ -18,3 +18,16 @@ export async function PATCH(
   });
   return NextResponse.json(issue);
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params: { id } }: { params: { id: string } }
+) {
+  if (!parseInt(id))
+    return NextResponse.json({ error: "id is not valid" }, { status: 400 });
+  const issue = await prisma.issue.findUnique({ where: { id: parseInt(id) } });
+  if (!issue)
+    return NextResponse.json({ error: "issue not found" }, { status: 404 });
+  await prisma.issue.delete({ where: { id: parseInt(id) } });
+  return NextResponse.json({});
+}
