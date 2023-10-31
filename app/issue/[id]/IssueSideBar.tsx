@@ -1,13 +1,16 @@
 "use client";
+import { Spinner } from "@/components";
 import { Pencil2Icon } from "@radix-ui/react-icons";
 import { Box, Button, Dialog, Flex } from "@radix-ui/themes";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 const IssueSideBar = ({ issueId }: { issueId: number }) => {
   const router = useRouter();
+  const [isError, setError] = useState(false);
+  const [isDeleting, setDeleting] = useState(false);
   return (
     <Flex
       direction="column"
@@ -20,7 +23,12 @@ const IssueSideBar = ({ issueId }: { issueId: number }) => {
       </Button>
       <Dialog.Root>
         <Dialog.Trigger>
-          <Button color="red">Delete Issue</Button>
+          <Button
+            color="red"
+            disabled={isDeleting}
+          >
+            Delete Issue {isDeleting && <Spinner />}
+          </Button>
         </Dialog.Trigger>
         <Dialog.Content>
           <Dialog.Title>Issue Deletion</Dialog.Title>
@@ -36,9 +44,15 @@ const IssueSideBar = ({ issueId }: { issueId: number }) => {
               <Button
                 color="red"
                 onClick={async () => {
-                  await axios.delete("/api/issue/" + issueId);
-                  router.push("/issue");
-                  router.refresh();
+                  try {
+                    setDeleting(true);
+                    await axios.delete("/api/issue/" + issueId);
+                    router.push("/issue");
+                    router.refresh();
+                  } catch (error) {
+                    setDeleting(false);
+                    setError(true);
+                  }
                 }}
               >
                 Delete
@@ -47,6 +61,22 @@ const IssueSideBar = ({ issueId }: { issueId: number }) => {
             <Dialog.Close>
               <Button color="gray">Cancel</Button>
             </Dialog.Close>
+          </Flex>
+        </Dialog.Content>
+      </Dialog.Root>
+      <Dialog.Root open={isError}>
+        <Dialog.Content>
+          <Dialog.Title>Error</Dialog.Title>
+          <Dialog.Description>
+            An unexpected error happened during issue deletion.
+          </Dialog.Description>
+          <Flex justify="end">
+            <Button
+              color="gray"
+              onClick={() => setError(false)}
+            >
+              OK
+            </Button>
           </Flex>
         </Dialog.Content>
       </Dialog.Root>
