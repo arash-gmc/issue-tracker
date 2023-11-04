@@ -3,6 +3,7 @@ import { Dialog, Button, Flex } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { ImBin2 } from "react-icons/im";
 
 const DeleteButton = ({ issueId }: { issueId: Number }) => {
   const router = useRouter();
@@ -16,6 +17,7 @@ const DeleteButton = ({ issueId }: { issueId: Number }) => {
             color="red"
             disabled={isDeleting}
           >
+            <ImBin2 />
             Delete Issue {isDeleting && <Spinner />}
           </Button>
         </Dialog.Trigger>

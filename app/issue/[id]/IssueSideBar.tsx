@@ -11,10 +11,12 @@ const IssueSideBar = ({ issueId }: { issueId: number }) => {
       gap="2"
       className="mt-4"
     >
-      <Button>
-        <Pencil2Icon />
-        <Link href={`/issue/${issueId}/edit`}>Edit Issue</Link>
-      </Button>
+      <Link href={`/issue/${issueId}/edit`}>
+        <Button className="w-full">
+          <Pencil2Icon />
+          Edit Issue
+        </Button>
+      </Link>
       <DeleteButton issueId={issueId} />
     </Flex>
   );

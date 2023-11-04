@@ -4,12 +4,21 @@ import React from "react";
 import { BsBugFill } from "react-icons/bs";
 import classNames from "classnames";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const Navbar = () => {
+  const { status, data } = useSession();
   const links = [
     { label: "Dasboard", href: "/" },
     { label: "Issues", href: "/issue" },
   ];
+  if (status === "unauthenticated")
+    links.push({ label: "SignIn", href: "/api/auth/signin" });
+  if (status === "authenticated") {
+    links.push({ label: data.user?.name!, href: "/profile" });
+    links.push({ label: "SignOut", href: "/api/auth/sigout" });
+  }
+
   const path = usePathname();
 
   return (
