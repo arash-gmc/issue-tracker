@@ -5,45 +5,91 @@ import { BsBugFill } from "react-icons/bs";
 import classNames from "classnames";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { Avatar, Container, DropdownMenu, Flex, Text } from "@radix-ui/themes";
+import { Skeleton } from "@/components";
 
 const Navbar = () => {
-  const { status, data } = useSession();
+  return (
+    <nav className="flex space-x-6 p-x-5 border-b mb-5 px-5 h-14 items-center">
+      <Container>
+        <Flex
+          justify="between"
+          align="center"
+        >
+          <NavLinks />
+          <AuthLiknk />
+        </Flex>
+      </Container>
+    </nav>
+  );
+};
+
+const NavLinks = () => {
   const links = [
     { label: "Dasboard", href: "/" },
     { label: "Issues", href: "/issue" },
   ];
-  if (status === "unauthenticated")
-    links.push({ label: "SignIn", href: "/api/auth/signin" });
-  if (status === "authenticated") {
-    links.push({ label: data.user?.name!, href: "/profile" });
-    links.push({ label: "SignOut", href: "/api/auth/signout" });
-  }
-
   const path = usePathname();
-
   return (
-    <nav className="flex space-x-6 p-x-5 border-b mb-5 px-5 h-14 items-center">
+    <Flex gap="3">
       <Link href="/">
         <BsBugFill />
       </Link>
-      <ul className="flex space-x-6">
-        {links.map((link) => (
-          <li key={link.href}>
-            <Link
-              href={link.href}
-              className={classNames({
-                "text-zinc-900": link.href === path,
-                "text-zinc-500": link.href !== path,
-                "hover:text-zinc-800 transition-colors": true,
-              })}
-            >
-              {link.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </nav>
+      {links.map((link) => (
+        <Link
+          key={link.href}
+          href={link.href}
+          className={classNames({
+            "!text-zinc-900": link.href === path,
+            "nav-link": true,
+          })}
+        >
+          {link.label}
+        </Link>
+      ))}
+    </Flex>
   );
+};
+
+const AuthLiknk = () => {
+  const { status, data: session } = useSession();
+  if (status === "loading") return <Skeleton width="5rem" />;
+  if (status === "unauthenticated")
+    return (
+      <Link
+        href="api/auth/signin"
+        className="nav-link"
+      >
+        Sign in
+      </Link>
+    );
+  if (status === "authenticated")
+    return (
+      <Flex>
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger>
+            <Avatar
+              src={session?.user?.image!}
+              fallback="?"
+              radius="full"
+              size="3"
+              className="cursor-pointer"
+            />
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content>
+            <DropdownMenu.Label>
+              <Text size="4">{session?.user?.name!}</Text>
+            </DropdownMenu.Label>
+            <DropdownMenu.Label>
+              <Text size="2">{session?.user?.email!}</Text>
+            </DropdownMenu.Label>
+            <DropdownMenu.Item>
+              <Link href="/api/auth/signout">LogOut</Link>
+            </DropdownMenu.Item>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+      </Flex>
+    );
 };
 
 export default Navbar;

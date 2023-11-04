@@ -12,7 +12,6 @@ const IssuePage = async () => {
       <Table.Root
         variant="surface"
         mt="5"
-        className="max-w-5xl"
       >
         <Table.Header>
           <Table.Row>
