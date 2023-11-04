@@ -16,7 +16,7 @@ const Navbar = () => {
     links.push({ label: "SignIn", href: "/api/auth/signin" });
   if (status === "authenticated") {
     links.push({ label: data.user?.name!, href: "/profile" });
-    links.push({ label: "SignOut", href: "/api/auth/sigout" });
+    links.push({ label: "SignOut", href: "/api/auth/signout" });
   }
 
   const path = usePathname();
