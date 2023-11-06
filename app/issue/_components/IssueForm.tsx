@@ -1,5 +1,5 @@
 "use client";
-import { createIssueSchema } from "@/app/validationSchema";
+import { modifyIssueSchema } from "@/app/validationSchema";
 import { ErrorMessage, Spinner } from "@/components";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Issue, Status } from "@prisma/client";
@@ -22,7 +22,7 @@ import SimpleMDE from "react-simplemde-editor";
 import Link from "next/link";
 import { ThickArrowLeftIcon } from "@radix-ui/react-icons";
 
-type IssueFormData = z.infer<typeof createIssueSchema>;
+type IssueFormData = z.infer<typeof modifyIssueSchema>;
 
 interface Props {
   issue?: Issue;
@@ -34,7 +34,7 @@ const IssueForm = ({ issue }: Props) => {
     handleSubmit,
     formState: { errors },
   } = useForm<IssueFormData>({
-    resolver: zodResolver(createIssueSchema),
+    resolver: zodResolver(modifyIssueSchema),
   });
   const router = useRouter();
   const [error, setError] = useState("");

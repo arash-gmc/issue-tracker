@@ -14,22 +14,25 @@ const SelectedUser = ({ issue }: { issue: Issue }) => {
   } = useQuery({
     queryKey: ["users"],
     queryFn: () => axios.get<User[]>("/api/user").then((res) => res.data),
+    retry: 3,
+    staleTime: 60 * 60 * 1000,
   });
+  const changeAssignedUser = (userId: string) => {
+    axios
+      .patch("/api/issue/" + issue.id, {
+        assignedUserId: userId !== "0" ? userId : null,
+      })
+      .catch(() => {
+        toast.error("changes could not be saved");
+      });
+  };
   if (isLoading) return <Skeleton />;
   if (isError) return null;
   return (
     <>
       <Select.Root
         defaultValue={issue.assignedUserId || "0"}
-        onValueChange={(userId) => {
-          axios
-            .patch("/api/issue/" + issue.id, {
-              assignedUserId: userId !== "0" ? userId : null,
-            })
-            .catch(() => {
-              toast.error("changes could not be saved");
-            });
-        }}
+        onValueChange={(userId) => changeAssignedUser(userId)}
       >
         <Select.Trigger placeholder="Assigned user" />
         <Select.Content>
