@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { createIssueSchema } from "../../validationSchema";
 import prisma from "@/prisma/client";
 import { authCheck } from "../authCheck";
+import { z } from "zod";
+
+type PostBody = z.infer<typeof createIssueSchema>;
 
 export async function GET(request: NextRequest) {
   const issues = await prisma.issue.findMany();
