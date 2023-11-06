@@ -4,8 +4,8 @@ import type { Metadata } from "next";
 import { Container, Theme, ThemePanel } from "@radix-ui/themes";
 import { Inter } from "next/font/google";
 import Navbar from "./Navbar";
-import { SessionProvider } from "next-auth/react";
-import Provider from "./Provider";
+import SessionProvider from "./_providers/Session";
+import QueryClient from "./_providers/QueryClient";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,24 +21,26 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Provider>
-        <body
-          className={inter.className}
-          suppressHydrationWarning={false}
-        >
-          <Theme
-            appearance="light"
-            accentColor="grass"
-            radius="large"
-            scaling="105%"
+      <SessionProvider>
+        <QueryClient>
+          <body
+            className={inter.className}
+            suppressHydrationWarning={false}
           >
-            <Navbar />
-            <main className="p-6">
-              <Container>{children}</Container>
-            </main>
-          </Theme>
-        </body>
-      </Provider>
+            <Theme
+              appearance="light"
+              accentColor="grass"
+              radius="large"
+              scaling="105%"
+            >
+              <Navbar />
+              <main className="p-6">
+                <Container>{children}</Container>
+              </main>
+            </Theme>
+          </body>
+        </QueryClient>
+      </SessionProvider>
     </html>
   );
 }
