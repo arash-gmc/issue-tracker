@@ -4,22 +4,23 @@ import { Button, Flex } from "@radix-ui/themes";
 import Link from "next/link";
 import DeleteButton from "./DeleteButton";
 import SelectedUser from "./SelectedUser";
+import { Issue } from "@prisma/client";
 
-const IssueSideBar = ({ issueId }: { issueId: number }) => {
+const IssueSideBar = ({ issue }: { issue: Issue }) => {
   return (
     <Flex
       direction="column"
       gap="2"
       className="mt-4"
     >
-      <SelectedUser />
-      <Link href={`/issue/${issueId}/edit`}>
+      <SelectedUser issue={issue} />
+      <Link href={`/issue/${issue.id}/edit`}>
         <Button className="w-full">
           <Pencil2Icon />
           Edit Issue
         </Button>
       </Link>
-      <DeleteButton issueId={issueId} />
+      <DeleteButton issueId={issue.id} />
     </Flex>
   );
 };

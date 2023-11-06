@@ -25,7 +25,7 @@ const IssueDetailPage = async ({ params: { id } }: Props) => {
       <Box className="col-span-4">
         <IssueDetails issue={issue} />
       </Box>
-      <Box>{session && <IssueSideBar issueId={issue.id} />}</Box>
+      <Box>{session && <IssueSideBar issue={issue} />}</Box>
     </Grid>
   );
 };
