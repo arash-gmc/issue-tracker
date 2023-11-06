@@ -1,11 +1,13 @@
 import { inputIssueSchema } from "@/app/validationSchema";
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { authCheck } from "../../authCheck";
 
 export async function PATCH(
   request: NextRequest,
   { params: { id } }: { params: { id: string } }
 ) {
+  if (!(await authCheck())) return NextResponse.json({}, { status: 401 });
   const body = await request.json();
   const validation = inputIssueSchema.safeParse(body);
   if (!validation.success)
@@ -27,6 +29,7 @@ export async function DELETE(
   request: NextRequest,
   { params: { id } }: { params: { id: string } }
 ) {
+  if (!(await authCheck())) return NextResponse.json({}, { status: 401 });
   if (!parseInt(id))
     return NextResponse.json({ error: "id is not valid" }, { status: 400 });
   const issue = await prisma.issue.findUnique({ where: { id: parseInt(id) } });
