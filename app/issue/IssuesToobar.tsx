@@ -1,14 +1,17 @@
-import { Button } from "@radix-ui/themes";
+"use client";
+import { Button, Flex } from "@radix-ui/themes";
 import Link from "next/link";
 import React from "react";
+import StatusFilter from "./StatusFilter";
 
 const IssuesToobar = () => {
   return (
-    <div>
+    <Flex justify="between">
+      <StatusFilter />
       <Button className="m-auto">
         <Link href="/issue/new">Create Issue</Link>
       </Button>
-    </div>
+    </Flex>
   );
 };
 
