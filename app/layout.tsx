@@ -28,7 +28,6 @@ export default function RootLayout({
             suppressHydrationWarning={false}
           >
             <Theme
-              appearance="light"
               accentColor="grass"
               radius="large"
               scaling="105%"
