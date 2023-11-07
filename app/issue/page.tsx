@@ -1,21 +1,37 @@
 import { Link, StatusBadge } from "@/components";
+import NextLink from "next/link";
 import prisma from "@/prisma/client";
-import { Table, Text } from "@radix-ui/themes";
+import { Table } from "@radix-ui/themes";
 import IssuesToobar from "./IssuesToobar";
-import { Status } from "@prisma/client";
+import { Issue, Status } from "@prisma/client";
 
 interface Props {
-  searchParams?: { status?: Status };
+  searchParams: { status: Status; orderBy: keyof Issue };
 }
 
-const IssuePage = async ({ searchParams }: Props) => {
-  const filterObject =
-    searchParams?.status && Object.keys(Status).includes(searchParams.status)
-      ? { status: searchParams.status }
-      : {};
+const columns: { label: string; value: keyof Issue; className?: string }[] = [
+  {
+    label: "Issue",
+    value: "title",
+  },
+  { label: "Status", value: "status" },
+  {
+    label: "Date Created",
+    value: "createdAt",
+    className: "hidden md:table-cell",
+  },
+];
 
+const IssuePage = async ({ searchParams }: Props) => {
+  const filterObject = Object.keys(Status).includes(searchParams.status)
+    ? { status: searchParams.status }
+    : undefined;
+  const orderBy = columns.map((col) => col.value).includes(searchParams.orderBy)
+    ? { [searchParams.orderBy]: "asc" }
+    : undefined;
   const issues = await prisma.issue.findMany({
     where: filterObject,
+    orderBy,
   });
 
   return (
@@ -27,22 +43,21 @@ const IssuePage = async ({ searchParams }: Props) => {
       >
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              id
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Title</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Status</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Date Created
-            </Table.ColumnHeaderCell>
+            {columns.map((column) => (
+              <Table.ColumnHeaderCell
+                key={column.value}
+                className={column.className}
+              >
+                <NextLink href={"/issue?orderBy=" + column.value}>
+                  {column.label}
+                </NextLink>
+              </Table.ColumnHeaderCell>
+            ))}
           </Table.Row>
         </Table.Header>
         <Table.Body>
           {issues.map((issue) => (
             <Table.Row key={issue.id}>
-              <Table.Cell className="hidden md:table-cell">
-                {issue.id}
-              </Table.Cell>
               <Table.Cell>
                 <Link href={`/issue/${issue.id}`}>{issue.title}</Link>
               </Table.Cell>
