@@ -4,6 +4,7 @@ import prisma from "@/prisma/client";
 import { Table } from "@radix-ui/themes";
 import IssuesToobar from "./IssuesToobar";
 import { Issue, Status } from "@prisma/client";
+import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
 
 interface Props {
   searchParams: { status: Status; orderBy: keyof Issue };
@@ -48,9 +49,14 @@ const IssuePage = async ({ searchParams }: Props) => {
                 key={column.value}
                 className={column.className}
               >
-                <NextLink href={"/issue?orderBy=" + column.value}>
+                <NextLink
+                  href={{ query: { ...searchParams, orderBy: column.value } }}
+                >
                   {column.label}
                 </NextLink>
+                {searchParams.orderBy === column.value && (
+                  <ArrowDownIcon className="inline" />
+                )}
               </Table.ColumnHeaderCell>
             ))}
           </Table.Row>
