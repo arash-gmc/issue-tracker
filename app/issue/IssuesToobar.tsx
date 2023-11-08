@@ -8,7 +8,7 @@ const IssuesToobar = () => {
   return (
     <Flex justify="between">
       <StatusFilter />
-      <Button className="m-auto">
+      <Button>
         <Link href="/issue/new">Create Issue</Link>
       </Button>
     </Flex>

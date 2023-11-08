@@ -29,6 +29,7 @@ const Pagination = ({ itemCount, pageSize, currentPage }: Props) => {
     <Flex
       align="center"
       gap="2"
+      justify="center"
     >
       <Button
         color="gray"
