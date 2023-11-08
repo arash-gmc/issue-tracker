@@ -3,6 +3,7 @@ import { Status } from "@prisma/client";
 import { Box, Card, Flex, Text } from "@radix-ui/themes";
 import Link from "next/link";
 import React from "react";
+import getStatusCounts from "./getStatusCounts";
 
 interface Props {
   open: number;
@@ -11,11 +12,7 @@ interface Props {
 }
 
 const IssueSummery = async () => {
-  const open = await prisma.issue.count({ where: { status: "OPEN" } });
-  const closed = await prisma.issue.count({ where: { status: "CLOSED" } });
-  const inProgress = await prisma.issue.count({
-    where: { status: "IN_PROGRESS" },
-  });
+  const { open, closed, inProgress } = await getStatusCounts();
   const containers: { label: string; value: number; status: Status }[] = [
     { label: "Open", value: open, status: "OPEN" },
     { label: "Closed", value: closed, status: "CLOSED" },
