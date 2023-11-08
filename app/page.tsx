@@ -1,15 +1,6 @@
-import Pagination from "@/components/Pagination";
+import prisma from "@/prisma/client";
+import IssueSummery from "./IssueSummery";
 
-export default function Home({
-  searchParams,
-}: {
-  searchParams: { page: string };
-}) {
-  return (
-    <Pagination
-      pageSize={10}
-      itemCount={100}
-      currentPage={parseInt(searchParams.page) || 1}
-    />
-  );
+export default async function Home() {
+  return <IssueSummery />;
 }
