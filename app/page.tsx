@@ -3,6 +3,7 @@ import IssueSummery from "./IssueSummery";
 import IssueCharts from "./IssueCharts";
 import { Flex, Grid } from "@radix-ui/themes";
 import LastIssues from "./LastIssues";
+import { Metadata } from "next";
 
 export default async function Home() {
   return (
@@ -21,3 +22,7 @@ export default async function Home() {
     </Grid>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Issue Tracker - Home",
+};

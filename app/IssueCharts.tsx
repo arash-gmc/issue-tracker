@@ -6,8 +6,8 @@ const IssueCharts = async () => {
   const { open, closed, inProgress } = await getStatusCounts();
   const data: Data[] = [
     { label: "Open", value: open },
-    { label: "Closed", value: closed },
     { label: "In Progress", value: inProgress },
+    { label: "Closed", value: closed },
   ];
   return <IssueChartsUI data={data} />;
 };
