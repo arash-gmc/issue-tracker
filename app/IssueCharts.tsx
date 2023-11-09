@@ -1,5 +1,5 @@
 import React from "react";
-import getStatusCounts from "./getStatusCounts";
+import { getStatusCounts } from "./getStatusCounts";
 import IssueChartsUI, { Data } from "./IssueChartsUI";
 
 const IssueCharts = async () => {

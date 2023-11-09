@@ -46,7 +46,7 @@ const IssuePage = async ({ searchParams }: Props) => {
   );
 };
 
-export const metadate: Metadata = {
+export const metadata: Metadata = {
   title: "issue tracker - List of issues",
 };
 

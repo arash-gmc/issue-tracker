@@ -3,7 +3,7 @@ import { Status } from "@prisma/client";
 import { Box, Card, Flex, Text } from "@radix-ui/themes";
 import Link from "next/link";
 import React from "react";
-import getStatusCounts from "./getStatusCounts";
+import { getStatusCounts } from "./getStatusCounts";
 
 interface Props {
   open: number;
@@ -24,7 +24,10 @@ const IssueSummery = async () => {
       justify="center"
     >
       {containers.map((container) => (
-        <Link href={"issue?status=" + container.status}>
+        <Link
+          href={"issue?status=" + container.status}
+          key={container.value}
+        >
           <Flex
             className="border-2 rounded-lg p-4"
             direction="column"
